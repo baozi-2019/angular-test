@@ -1,7 +1,7 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {DownloadOptions, NgxQrcodeStylingService, Options} from "ngx-qrcode-styling";
-import {ShapeType} from "ngx-qrcode-styling/lib/ngx-qrcode-styling.options";
+import {DownloadOptions, Options, ShapeType} from "ngx-qrcode-styling";
+import {ɵa} from "ngx-qrcode-styling";
 
 @Component({
   selector: 'app-test',
@@ -12,6 +12,8 @@ export class TestComponent implements OnInit {
 
   text: string = "";
   @Input() name: string | undefined;
+
+  @ViewChild("qrcode", {read: ElementRef, static: false}) qrcode: ElementRef | undefined;
 
   public config: Options = {
     width: 300,
@@ -43,19 +45,15 @@ export class TestComponent implements OnInit {
 
   constructor(
     public httpClient: HttpClient,
-    private ngxService: NgxQrcodeStylingService
-  ) {
-  }
+    private ngxService: ɵa
+  ) { }
 
   ngOnInit(): void {
-    // this.ngxService.download(this.config, this.downloadOptions);
+    // this.ngxService.download(this.config, this.qrcode?.nativeElement, this.downloadOptions);
   }
 
-  changeShape() {
-    this.ngxService.update(this.config, {
-      width: 500
-    });
-    console.log(this.config);
+  changeShape(shape: ShapeType) {
+    this.ngxService.update(this.config, {shape}, this.qrcode?.nativeElement);
   }
 
   getHttp() {

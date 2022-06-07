@@ -3,8 +3,9 @@
 
 <p>{{name}}</p>
 
-<ngx-qrcode-styling [config]="config"></ngx-qrcode-styling>
+<ngx-qrcode-styling [config]="config" #qrcode></ngx-qrcode-styling>
 
-<button (click)="changeShape()">方形</button>
+<button nz-button (click)="changeShape('square')">方形</button>
+<button nz-button (click)="changeShape('circle')">圆形</button>
 
 <button (click)="getHttp()">发送请求</button>
