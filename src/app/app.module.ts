@@ -33,7 +33,7 @@ registerLocaleData(zh);
     AppComponent,
     TestComponent,
     FirstComponent,
-    SecondComponent
+    SecondComponent,
   ],
   imports: [
     BrowserModule,

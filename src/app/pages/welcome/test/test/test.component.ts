@@ -1,7 +1,6 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {DownloadOptions, Options, ShapeType} from "ngx-qrcode-styling";
-import {ɵa} from "ngx-qrcode-styling";
+import {Options, ShapeType, NgxQrcodeStylingService} from "ngx-qrcode-styling";
 
 @Component({
   selector: 'app-test',
@@ -38,18 +37,15 @@ export class TestComponent implements OnInit {
     }
   };
 
-  downloadOptions: DownloadOptions = {
-    name: "111",
-    extension: "jpeg"
-  }
+
 
   constructor(
     public httpClient: HttpClient,
-    private ngxService: ɵa
+    private ngxService: NgxQrcodeStylingService
   ) { }
 
   ngOnInit(): void {
-    // this.ngxService.download(this.config, this.qrcode?.nativeElement, this.downloadOptions);
+    this.ngxService.download("111.jepg", this.qrcode?.nativeElement, 1000);
   }
 
   changeShape(shape: ShapeType) {
