@@ -45,7 +45,7 @@ export class TestComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.ngxService.download("111.jepg", this.qrcode?.nativeElement, 1000);
+    // this.ngxService.download("111.jepg", this.qrcode?.nativeElement, 1000);
   }
 
   changeShape(shape: ShapeType) {
@@ -71,6 +71,21 @@ export class TestComponent implements OnInit {
     // this.httpClient.get('http://localhost:4201/second-component').subscribe((response) => {
     //   console.log(response);
     // });
+  }
+
+  @ViewChild("excel") excel: ElementRef | undefined;
+
+  uploadExcel() {
+    let api = '/api/upload';
+    let formData = new FormData();
+    let name = new Blob(["aaa+"], {type: 'application/json'});
+    let value = new Blob(["aaa"], {type: 'application/json'});
+    formData.append("name", name);
+    formData.append("value", value);
+    formData.append("excel", this.excel?.nativeElement.files[0]);
+    this.httpClient.post(api, formData).subscribe(data => {
+      console.log(data);
+    });
   }
 
 }
