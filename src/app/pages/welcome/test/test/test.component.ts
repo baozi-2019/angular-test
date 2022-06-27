@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Options, ShapeType, NgxQrcodeStylingService} from "ngx-qrcode-styling";
 
 @Component({
@@ -79,12 +79,31 @@ export class TestComponent implements OnInit {
     let api = '/api/upload';
     let formData = new FormData();
     let name = new Blob(["aaa+"], {type: 'application/json'});
-    let value = new Blob(["aaa"], {type: 'application/json'});
+    let value = new Blob(["123"], {type: 'application/json'});
     formData.append("name", name);
     formData.append("value", value);
     formData.append("excel", this.excel?.nativeElement.files[0]);
     this.httpClient.post(api, formData).subscribe(data => {
       console.log(data);
+    });
+  }
+
+  downloadExcel() {
+    let api = '/api/laboratoryCmd/cmdExport?laboratoryId=180&categoryCode=illumination';
+    this.httpClient.get(api, {
+      headers: new HttpHeaders({
+        'X-RC-AUTH': 'rc_192_508ae401985647c2929cc58255192c6f'
+      }),
+      responseType: "blob"
+    }).subscribe((response) => {
+      let link = document.createElement('a');
+      const blob = new Blob([response]);
+      link.style.display = 'none';
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute('download', '123.xlsx');
+      document.body.appendChild(link);
+      link.click()
+      document.body.removeChild(link);
     });
   }
 
