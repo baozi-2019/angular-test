@@ -75,17 +75,29 @@ export class TestComponent implements OnInit {
 
   @ViewChild("excel") excel: ElementRef | undefined;
 
-  uploadExcel() {
-    let api = '/api/upload';
-    let formData = new FormData();
-    let name = new Blob(["aaa+"], {type: 'application/json'});
-    let value = new Blob(["123"], {type: 'application/json'});
-    formData.append("name", name);
-    formData.append("value", value);
-    formData.append("excel", this.excel?.nativeElement.files[0]);
-    this.httpClient.post(api, formData).subscribe(data => {
-      console.log(data);
+  async uploadExcel() {
+    // @ts-ignore
+    const arrFileHandle = await window.showOpenFilePicker({
+      types: [{
+        accept: {
+          'image/*': ['.xlsx']
+        }
+      }],
+      // 可以选择多个图片
+      multiple: false
     });
+    console.log(arrFileHandle);
+
+    // let api = '/api/upload';
+    // let formData = new FormData();
+    // let name = new Blob(["aaa+"], {type: 'application/json'});
+    // let value = new Blob(["123"], {type: 'application/json'});
+    // formData.append("name", name);
+    // formData.append("value", value);
+    // formData.append("excel", this.excel?.nativeElement.files[0]);
+    // this.httpClient.post(api, formData).subscribe(data => {
+    //   console.log(data);
+    // });
   }
 
   downloadExcel() {
